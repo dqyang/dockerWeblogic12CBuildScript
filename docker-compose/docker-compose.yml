@@ -1,0 +1,30 @@
+version: "3"
+services:
+  web:
+    # replace username/repo:tag with your name and image details
+    image: weblogicvida:12.2.1.3-generic
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.4"
+          memory: 1280M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "7001:7001"
+      - "9002:9002"
+    volumes:
+      # Just specify a path and let the Engine create a volume
+      - /d/gitHubRepo/dockerWeblogic12CBuildScript/dockerfiles/12.2.1.3/domain_properties:/u01/oracle/properties
+      # Specify an absolute path mapping
+      - /d/gitHubRepo/dockerWeblogic12CBuildScript/dockerfiles/12.2.1.3/deployments:/u01/oracle/deploy
+    environment:
+      - ADMINISTRATION_PORT_ENABLED=false
+      - DOMAIN_NAME=service_domain
+    command:
+      - /u01/oracle/createAndStartVidaDomain.sh
+    networks:
+      - webnet
+networks:
+  webnet:
