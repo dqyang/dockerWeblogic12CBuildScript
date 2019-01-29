@@ -1,0 +1,3 @@
+#Add any directory or files to be ignored by git 
+/dockerfiles/12.2.1.3/fmw_12.2.1.3.0_wls_Disk1_1of1.zip
+/dockerfiles/12.2.1.3/fmw_12.2.1.3.0_wls_quick.jar
