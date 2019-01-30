@@ -23,18 +23,14 @@ edit()
 serverConfig()
 
 cd('/SecurityConfiguration/'+domainname+'/Realms/myrealm/AuthenticationProviders/DefaultAuthenticator')
-cmo.createGroup('resAdministrators', 'resAdministrators')
-cmo.createGroup('resDeployers', 'resDeployers')
-cmo.createGroup('resMonitors', 'resMonitors')
 
-cmo.createUser('resAdmin','resAdmin1','resAdmin')
-cmo.createUser('resMonitor','resMonitor1','resMonitor')
-cmo.createUser('resDeployer','resDeployer1','resDeployer')
+cmo.createGroup('VIDA_ADMIN', 'VIDA_ADMIN')
+cmo.createGroup('VIDA_CLIENT_SVCS', 'VIDA_CLIENT_SVCS')
 
-cmo.addMemberToGroup('resAdministrators', 'resAdmin')
-cmo.addMemberToGroup('Administrators', 'resAdmin')
-cmo.addMemberToGroup('resDeployers', 'resDeployer')
-cmo.addMemberToGroup('resMonitors', 'resMonitor')
+cmo.createUser('dev_manager','P@55w0rd','dev_manager')
+
+cmo.addMemberToGroup('VIDA_ADMIN', 'dev_manager')
+cmo.addMemberToGroup('VIDA_CLIENT_SVCS', 'dev_manager')
 
 disconnect()
 # Exit WLST
