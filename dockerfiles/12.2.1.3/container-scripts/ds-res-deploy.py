@@ -3,15 +3,15 @@
 # WLST Offline for deploying an application under APP_NAME packaged in APP_PKG_FILE located in APP_PKG_LOCATION
 # It will read the domain under DOMAIN_HOME by default
 #
-# author: Bruno Borges <bruno.borges@oracle.com>
-# since: December, 2015
+# author: Daniel Yang 
+# since: Jan. 2019
 #
 import os
 
 # Deployment Information
 domainname = os.environ.get('DOMAIN_NAME', 'base_domain')
 domainhome = os.environ.get('DOMAIN_HOME', '/u01/oracle/user_projects/domains/' + domainname)
-admin_name = os.environ.get("ADMIN_NAME", "AdminServer")
+admin_server_name = os.environ.get("ADMIN_NAME", "AdminServer")
 
 # Read Domain in Offline Mode
 # ===========================
@@ -19,22 +19,22 @@ readDomain(domainhome)
 
 # Create Datasource
 # ==================
-create(dsname, 'JDBCSystemResource')
-cd('/JDBCSystemResource/' + dsname + '/JdbcResource/' + dsname)
-cmo.setName(dsname)
+create(resdsname, 'JDBCSystemResource')
+cd('/JDBCSystemResource/' + resdsname + '/JdbcResource/' + resdsname)
+cmo.setName(resdsname)
 
-cd('/JDBCSystemResource/' + dsname + '/JdbcResource/' + dsname)
+cd('/JDBCSystemResource/' + resdsname + '/JdbcResource/' + resdsname)
 create('myJdbcDataSourceParams','JDBCDataSourceParams')
 cd('JDBCDataSourceParams/NO_NAME_0')
-set('JNDIName', java.lang.String(dsjndiname))
+set('JNDIName', java.lang.String(resdsjndiname))
 set('GlobalTransactionsProtocol', java.lang.String('TwoPhaseCommit'))
 
-cd('/JDBCSystemResource/' + dsname + '/JdbcResource/' + dsname)
+cd('/JDBCSystemResource/' + resdsname + '/JdbcResource/' + resdsname)
 create('myJdbcDriverParams','JDBCDriverParams')
 cd('JDBCDriverParams/NO_NAME_0')
-set('DriverName', dsdriver)
-set('URL', dsurl)
-set('PasswordEncrypted', dspassword)
+set('DriverName', xadriver)
+set('URL', resdsurl)
+set('PasswordEncrypted', resdspassword)
 set('UseXADataSourceInterface', 'true')
 
 print 'create JDBCDriverParams Properties'
@@ -42,7 +42,7 @@ create('myProperties','Properties')
 cd('Properties/NO_NAME_0')
 create('user','Property')
 cd('Property/user')
-set('Value', dsusername)
+set('Value', resdsusername)
 
 cd('../../')
 create('databaseName','Property')
@@ -50,14 +50,14 @@ cd('Property/databaseName')
 set('Value', dsdbname)
 
 print 'create JDBCConnectionPoolParams'
-cd('/JDBCSystemResource/' + dsname + '/JdbcResource/' + dsname)
+cd('/JDBCSystemResource/' + resdsname + '/JdbcResource/' + resdsname)
 create('myJdbcConnectionPoolParams','JDBCConnectionPoolParams')
 cd('JDBCConnectionPoolParams/NO_NAME_0')
 set('TestTableName','SQL SELECT 1 FROM DUAL')
 
 # Assign
 # ======
-assign('JDBCSystemResource', dsname, 'Target', admin_name)
+assign('JDBCSystemResource', resdsname, 'Target', admin_server_name)
 
 # Update Domain, Close It, Exit
 # ==========================

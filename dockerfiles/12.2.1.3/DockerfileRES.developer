@@ -49,7 +49,7 @@ RUN mkdir -p /u01 && \
 
 # Copy scripts
 #-------------
-COPY container-scripts/createAndStartRESDomain.sh container-scripts/create-wls-domain.py container-scripts/ds-deploy.py container-scripts/app-deploy.py container-scripts/user-accounts.py /u01/oracle/
+COPY container-scripts/createAndStartRESDomain.sh container-scripts/create-wls-domain.py container-scripts/ds-res-deploy.py container-scripts/app-res-deploy.py container-scripts/user-res-accounts.py /u01/oracle/
 
 # Domain and Server environment variables
 # ------------------------------------------------------------

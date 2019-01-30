@@ -66,7 +66,11 @@ if [ $ADD_DOMAIN -eq 0 ]; then
 
    # Create datasource
     echo "Creating datasource"
-   #wlst.sh -skipWLSModuleScanning -loadProperties $PROPERTIES_FILE  /u01/oracle/ds-deploy.py
+   wlst.sh -skipWLSModuleScanning -loadProperties $PROPERTIES_FILE  /u01/oracle/ds-services-deploy.py
+
+   # Create JMS
+    echo "Creating JMS Server"
+   wlst.sh -skipWLSModuleScanning -loadProperties $PROPERTIES_FILE  /u01/oracle/jms-deploy.py
 
 fi
 
@@ -74,11 +78,11 @@ fi
 ${DOMAIN_HOME}/startWebLogic.sh &
 
    echo "-----------Wait 60 seconds for WLS Server start up---------------"
-   sleep 60
+   sleep 90
    echo "---------------------------------------------------------"
    echo "Create User Accounts in online mode"
    echo "---------------------------------------------------------"
-   #wlst.sh -skipWLSModuleScanning -loadProperties $PROPERTIES_FILE /u01/oracle/user-accounts.py
+   wlst.sh -skipWLSModuleScanning -loadProperties $PROPERTIES_FILE /u01/oracle/user-vida-accounts.py
 
    echo "---------------------------------------------------------"
    echo "Configure WLS Domain in online mode"
@@ -89,7 +93,7 @@ ${DOMAIN_HOME}/startWebLogic.sh &
    echo "---------------------------------------------------------"
    echo "Deploying application"
    echo "---------------------------------------------------------"
-   #wlst.sh -skipWLSModuleScanning -loadProperties $PROPERTIES_FILE  /u01/oracle/app-deploy.py
+   #wlst.sh -skipWLSModuleScanning -loadProperties $PROPERTIES_FILE  /u01/oracle/app-services-deploy.py
 
 touch ${DOMAIN_HOME}/servers/AdminServer/logs/AdminServer.log
 tail -f ${DOMAIN_HOME}/servers/AdminServer/logs/AdminServer.log &

@@ -49,7 +49,7 @@ RUN mkdir -p /u01 && \
 
 # Copy scripts
 #-------------
-COPY container-scripts/createAndStartVidaDomain.sh container-scripts/create-wls-domain.py container-scripts/ds-deploy.py container-scripts/app-deploy.py container-scripts/user-accounts.py container-scripts/config-wls-domain.py /u01/oracle/
+COPY container-scripts/createAndStartVidaDomain.sh container-scripts/create-wls-domain.py container-scripts/ds-services-deploy.py container-scripts/jms-deploy.py container-scripts/app-services-deploy.py container-scripts/user-vida-accounts.py /u01/oracle/
 
 # Domain and Server environment variables
 # ------------------------------------------------------------
