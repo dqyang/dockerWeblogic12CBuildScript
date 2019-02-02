@@ -63,6 +63,8 @@ if [ $ADD_DOMAIN -eq 0 ]; then
    echo "username=${USER}" >> $DOMAIN_HOME/servers/AdminServer/security/boot.properties
    echo "password=${PASS}" >> $DOMAIN_HOME/servers/AdminServer/security/boot.properties
    ${DOMAIN_HOME}/bin/setDomainEnv.sh
+   cp /u01/oracle/domain_lib/*.jar ${DOMAIN_HOME}/lib/.
+   cp /u01/oracle/properties/vida.properties ${DOMAIN_HOME}/.
 
    # Create datasource
     echo "Creating datasource"
@@ -93,7 +95,7 @@ ${DOMAIN_HOME}/startWebLogic.sh &
    echo "---------------------------------------------------------"
    echo "Deploying application"
    echo "---------------------------------------------------------"
-   #wlst.sh -skipWLSModuleScanning -loadProperties $PROPERTIES_FILE  /u01/oracle/app-services-deploy.py
+   wlst.sh -skipWLSModuleScanning -loadProperties $PROPERTIES_FILE  /u01/oracle/app-services-deploy.py
 
 touch ${DOMAIN_HOME}/servers/AdminServer/logs/AdminServer.log
 tail -f ${DOMAIN_HOME}/servers/AdminServer/logs/AdminServer.log &

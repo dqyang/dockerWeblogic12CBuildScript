@@ -1,32 +1,57 @@
-# Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2018 Maximus
 #
-# WLST Offline for deploying an application under APP_NAME packaged in APP_PKG_FILE located in APP_PKG_LOCATION
-# It will read the domain under DOMAIN_HOME by default
+# WLST online script to deploy applicaitons.
 #
-# author: Bruno Borges <bruno.borges@oracle.com>
-# since: December, 2015
+# author: Daniel Yang
+# since: January 2018
 #
 import java.lang
 import os
 import string
 
+def deployapp(app, dirName):
+    "deploys an app"	
+    appName = app[0];
+    warName = app[2];
+	
+    appPath = dirName+'/'+warName
+    try:
+        print 'Redeploying ',app[0]
+        undeploy(appName)
+    except Exception:
+        print 'Deploying...'
+    if appName == 'webApp':
+       planPath=dirName+'/'+'Plan-gradle.xml'
+       print 'planPath:'+planPath
+       deploy(appName=appName,path=appPath,planPath=planPath,upload="false")
+    else:
+       deploy(appName=appName,path=appPath,upload="false")
+    return
+
 # Deployment Information
 domainname = os.environ.get('DOMAIN_NAME', 'base_domain')
 domainhome = os.environ.get('DOMAIN_HOME', '/u01/oracle/user_projects/domains/' + domainname)
 admin_name = os.environ.get("ADMIN_NAME", "AdminServer")
-#xuName    = 'jrules-res-xu-WL12'
-#xupkg     = 'jrules-res-xu-WL12.rar'
-#resName    = 'jrules-res-management-WL12'
-#respkg     = 'jrules-res-management-WL12.ear'
-appdir     = os.environ.get('APP_PKG_LOCATION', '/u01/oracle/deploy')
+deployDirName = os.environ.get('APP_PKG_LOCATION', '/u01/oracle/deploy')
 
 connect(username,password,'t3://172.17.0.2:7001')
 
-# Deplloy Application
-# ==================
-
-#deploy(appName=xuName, path=appdir + '/' + xupkg, upload="false")
-#deploy(appName=resName, path=appdir + '/' + respkg, upload="false")
+apps = [
+        ['CommonServices','flSchipCommonServices', 'commonServices.war'],
+        ['TaskManagement','flSchipTaskManagement', 'taskManagement.war'],
+        ['LettersManagement','flSchipOutboundDocManagement', 'LettersManagement.war'],
+        ['BatchProcessing','flSchipBatchProcessing', 'batchProcessing.war'],
+        ['Finance','flSchipFinance', 'finance.war'],
+        ['InboundDocManagment','flSchipInboundDocManagement', 'inboundDocManagement.war'],
+        ['AccountManagement','flSchipAccountManagement', 'accountManagement.war'],
+        ['Enrollment','flSchipEnrollment', 'enrollmentManagement.war'],
+        ['eligibility','flSchipEligibility', 'eligibility.war'],
+        ['ServiceClient','flSchipServiceClient', 'serviceClient.war'],
+        ['LettersGeneration','flSchipLettersGeneration','LettersGeneration.war'],
+        ['webApp','flSchipWebApp', 'webApp.war']
+       ]
+for app in apps:
+  deployapp(app, deployDirName)
 
 
 # Disconnect

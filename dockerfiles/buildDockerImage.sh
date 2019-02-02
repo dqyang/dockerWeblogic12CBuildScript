@@ -132,6 +132,21 @@ fi
 # ################## #
 echo "Building image '$IMAGE_NAME' ..."
 
+#Copy the apps built to deploy directory
+cp ../../externals/flSchipAccountManagement/build/libs/accountManagement.war 12.2.1.3/deployments/.
+cp ../../externals/flSchipBatchProcessing/build/libs/batchProcessing.war 12.2.1.3/deployments/.
+cp ../../externals/flSchipCommonServices/build/libs/commonServices.war 12.2.1.3/deployments/.
+cp ../../externals/flSchipEligibility/build/libs/eligibility.war 12.2.1.3/deployments/.
+cp ../../externals/flSchipEnrollment/build/libs/enrollmentManagement.war 12.2.1.3/deployments/.
+cp ../../externals/flSchipFinance/build/libs/finance.war 12.2.1.3/deployments/.
+cp ../../externals/flSchipInboundDocManagement/build/libs/inboundDocManagement.war 12.2.1.3/deployments/.
+cp ../../externals/flSchipLettersGeneration/build/libs/LettersGeneration.war 12.2.1.3/deployments/.
+cp ../../externals/flSchipOutboundDocManagement/build/libs/LettersManagement.war 12.2.1.3/deployments/.
+cp ../../externals/flSchipServiceClient/build/libs/serviceClient.war 12.2.1.3/deployments/.
+cp ../../externals/flSchipTaskManagement/build/libs/taskManagement.war 12.2.1.3/deployments/.
+cp ../../externals/flSchipWebApp/build/libs/webApp.war 12.2.1.3/deployments/.
+cp ../../externals/flSchipWebApp/src/dev/webapp/deployment/Plan-gradle.xml 12.2.1.3/deployments/.
+
 # BUILD THE IMAGE (replace all environment variables)
 BUILD_START=$(date '+%s')
 docker build --force-rm=$NOCACHE --no-cache=$NOCACHE $PROXY_SETTINGS -t $IMAGE_NAME -f Dockerfile.$DISTRIBUTION . || {
