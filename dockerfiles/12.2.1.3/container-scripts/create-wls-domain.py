@@ -12,6 +12,7 @@
 domain_name  = os.environ.get("DOMAIN_NAME", "base_domain")
 admin_name  = os.environ.get("ADMIN_NAME", "AdminServer")
 admin_listen_port   = int(os.environ.get("ADMIN_LISTEN_PORT", "7001"))
+ssl_listen_port   = int(os.environ.get("SSL_LISTEN_PORT", "7002"))
 domain_path  = '/u01/oracle/user_projects/domains/%s' % domain_name
 production_mode = os.environ.get("PRODUCTION_MODE", "prod")
 administration_port_enabled = os.environ.get("ADMINISTRATION_PORT_ENABLED", "true")
@@ -48,10 +49,10 @@ cd('/Servers/AdminServer')
 set('Name', admin_name)
 set('ListenAddress', '')
 set('ListenPort', admin_listen_port)
-if administration_port_enabled != "false":
-   create('AdminServer','SSL')
-   cd('SSL/AdminServer')
-   set('Enabled', 'True')
+create('AdminServer','SSL')
+cd('SSL/AdminServer')
+set('Enabled', 'True')
+set('ListenPort', ssl_listen_port)
 
 # Define the user password for weblogic
 # =====================================
