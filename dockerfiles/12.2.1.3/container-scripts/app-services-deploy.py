@@ -33,8 +33,9 @@ domainname = os.environ.get('DOMAIN_NAME', 'base_domain')
 domainhome = os.environ.get('DOMAIN_HOME', '/u01/oracle/user_projects/domains/' + domainname)
 admin_name = os.environ.get("ADMIN_NAME", "AdminServer")
 deployDirName = os.environ.get('APP_PKG_LOCATION', '/u01/oracle/deploy')
+adminURL='t3://' + wladminhost + ':7001'
 
-connect(username,password,'t3://172.17.0.2:7001')
+connect(username,password,adminURL)
 
 apps = [
         ['CommonServices','flSchipCommonServices', 'commonServices.war'],

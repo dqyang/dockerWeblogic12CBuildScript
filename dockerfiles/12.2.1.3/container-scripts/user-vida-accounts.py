@@ -13,7 +13,7 @@
 
 domainname = os.environ.get('DOMAIN_NAME', 'base_domain')
 admin_listen_port= int(os.environ.get("ADMIN_LISTEN_PORT", "7001"))
-adminURL='t3://172.17.0.2:7001'
+adminURL='t3://' + wladminhost + ':7001'
 print 'adminURL', adminURL
 
 # Connect to the AdminServer.
